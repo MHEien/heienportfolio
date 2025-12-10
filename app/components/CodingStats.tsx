@@ -69,20 +69,45 @@ function useWakaTimeData() {
         throw new Error(wakaData.error);
       }
       setData(wakaData);
-      setIsLive(true);
     } catch (err) {
       console.warn('Using fallback WakaTime data:', err);
       setData(fallbackData);
-      setIsLive(false);
       setError('Using cached data');
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+  const fetchHeartbeat = useCallback(async () => {
+    try {
+      const response = await fetch('/api/wakatime/heartbeat', { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error('Failed to fetch latest heartbeat');
+      }
+
+      const heartbeat = await response.json();
+      if (!heartbeat.timestamp) {
+        setIsLive(false);
+        return;
+      }
+
+      const heartbeatTime = new Date(heartbeat.timestamp).getTime();
+      const minutesSinceHeartbeat = (Date.now() - heartbeatTime) / (1000 * 60);
+      setIsLive(minutesSinceHeartbeat <= 5);
+    } catch (err) {
+      console.warn('Heartbeat check failed:', err);
+      setIsLive(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchHeartbeat();
+
+    const interval = setInterval(fetchHeartbeat, 60000);
+
+    return () => clearInterval(interval);
+  }, [fetchData, fetchHeartbeat]);
 
   return { data, isLoading, isLive, error, refetch: fetchData };
 }
@@ -228,7 +253,8 @@ export default function CodingStats() {
             </button>
           </div>
           <p className="text-lg text-foreground-muted max-w-2xl">
-            Real-time metrics proving dedication. Every hour tracked, every language measured, every streak earned.
+            Real-time metrics proving dedication. The LIVE badge lights up when I&apos;m actively coding, while the rest of the
+            dashboard tracks the broader journey.
           </p>
         </motion.div>
 
