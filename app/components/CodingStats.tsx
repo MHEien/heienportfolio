@@ -54,6 +54,7 @@ function useWakaTimeData() {
   const [data, setData] = useState<WakaTimeData>(fallbackData);
   const [isLoading, setIsLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
+  const [lastHeartbeat, setLastHeartbeat] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
@@ -88,15 +89,19 @@ function useWakaTimeData() {
       const heartbeat = await response.json();
       if (!heartbeat.timestamp) {
         setIsLive(false);
+        setLastHeartbeat(null);
         return;
       }
 
-      const heartbeatTime = new Date(heartbeat.timestamp).getTime();
+      const heartbeatDate = new Date(heartbeat.timestamp);
+      const heartbeatTime = heartbeatDate.getTime();
       const minutesSinceHeartbeat = (Date.now() - heartbeatTime) / (1000 * 60);
+      setLastHeartbeat(heartbeatDate);
       setIsLive(minutesSinceHeartbeat <= 5);
     } catch (err) {
       console.warn('Heartbeat check failed:', err);
       setIsLive(false);
+      setLastHeartbeat(null);
     }
   }, []);
 
@@ -109,7 +114,22 @@ function useWakaTimeData() {
     return () => clearInterval(interval);
   }, [fetchData, fetchHeartbeat]);
 
-  return { data, isLoading, isLive, error, refetch: fetchData };
+  return { data, isLoading, isLive, lastHeartbeat, error, refetch: fetchData };
+}
+
+function formatLastSeen(date: Date | null) {
+  if (!date) return 'Last online unknown';
+
+  const now = Date.now();
+  const diffMs = now - date.getTime();
+  const minutes = Math.floor(diffMs / (1000 * 60));
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (minutes < 1) return 'Active seconds ago';
+  if (minutes < 60) return `Last online ${minutes}m ago`;
+  if (hours < 24) return `Last online ${hours}h ago`;
+  return `Last online ${days}d ago`;
 }
 
 function AnimatedNumber({ value, suffix = '' }: { value: number; suffix?: string }) {
@@ -208,7 +228,8 @@ function ActivityGraph({ weeklyActivity }: { weeklyActivity: DayActivity[] }) {
 export default function CodingStats() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-  const { data: wakaTimeData, isLoading, isLive, refetch } = useWakaTimeData();
+  const { data: wakaTimeData, isLoading, isLive, lastHeartbeat, refetch } = useWakaTimeData();
+  const lastSeen = formatLastSeen(lastHeartbeat);
 
   return (
     <section id="stats" ref={sectionRef} className="relative py-32 overflow-hidden">
@@ -240,6 +261,10 @@ export default function CodingStats() {
                 {isLoading && (
                   <RefreshCw className="w-4 h-4 text-accent-primary animate-spin" />
                 )}
+              </div>
+              <div className="flex items-center gap-2 text-foreground-muted font-mono text-xs mt-1">
+                <Clock className="w-3 h-3" />
+                <span>{isLive ? 'Active now (heartbeat just received)' : lastSeen}</span>
               </div>
               {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
               <p className="text-foreground-muted font-mono text-sm">// powered by WakaTime PRO</p>
