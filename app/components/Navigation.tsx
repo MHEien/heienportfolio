@@ -55,7 +55,7 @@ export default function Navigation() {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-background-secondary/80 backdrop-blur-xl border-b border-(--border-subtle)'
+            ? 'bg-background-secondary/70 backdrop-blur-2xl border-b border-(--border-subtle) shadow-[0_10px_80px_rgba(0,0,0,0.35)]'
             : 'bg-transparent'
         }`}
       >
@@ -68,25 +68,29 @@ export default function Navigation() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-accent-primary/10 border border-accent-primary/30 flex items-center justify-center group-hover:border-accent-primary/60 transition-colors">
-                <Terminal className="w-5 h-5 text-accent-primary" />
+              <div className="relative w-11 h-11 rounded-xl bg-background-tertiary/80 border border-(--border-accent) overflow-hidden">
+                <div className="absolute inset-0 aurora-ring opacity-60" />
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Terminal className="w-5 h-5 text-accent-primary" />
+                </div>
               </div>
-              <div className="hidden sm:block">
-                <span className="font-mono text-sm text-foreground-muted">~/</span>
-                <span className="font-mono text-sm text-accent-primary">heien</span>
-                <span className="font-mono text-sm text-foreground-muted">.dev</span>
+              <div className="hidden sm:block text-left">
+                <span className="block font-mono text-[10px] uppercase tracking-[0.3em] text-foreground-muted">Portfolio OS</span>
+                <span className="block font-mono text-sm text-foreground">
+                  heien<span className="text-accent-secondary">.control</span>
+                </span>
               </div>
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1 rounded-full bg-background/30 p-1 border border-(--border-subtle) shadow-[0_10px_80px_rgba(0,0,0,0.35)]">
               {navItems.map((item) => (
                 <motion.button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative px-4 py-2 font-mono text-sm transition-all duration-300 rounded-lg ${
+                  className={`relative px-4 py-2 font-mono text-sm transition-all duration-300 rounded-full ${
                     activeSection === item.id
-                      ? 'text-accent-primary'
+                      ? 'text-background'
                       : 'text-foreground-muted hover:text-foreground'
                   }`}
                   whileHover={{ scale: 1.05 }}
@@ -97,7 +101,7 @@ export default function Navigation() {
                   {activeSection === item.id && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute inset-0 bg-accent-primary/10 border border-accent-primary/30 rounded-lg -z-10"
+                      className="absolute inset-0 rounded-full -z-10 bg-linear-to-r from-accent-primary to-accent-secondary shadow-[0_8px_30px_rgba(112,225,255,0.35)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -107,9 +111,9 @@ export default function Navigation() {
 
             {/* Status Indicator */}
             <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-secondary/10 border border-accent-secondary/30">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background-tertiary/70 border border-(--border-subtle) shadow-[0_10px_50px_rgba(112,225,255,0.25)]">
                 <div className="w-2 h-2 rounded-full bg-accent-secondary animate-pulse" />
-                <span className="font-mono text-xs text-accent-secondary">available</span>
+                <span className="font-mono text-xs text-accent-secondary">live system online</span>
               </div>
             </div>
 
