@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowDown, Briefcase, Code2, Zap, Clock } from 'lucide-react';
+import { ArrowDown, Briefcase, Code2, Zap, Clock, Flame } from 'lucide-react';
 
 const stats = [
   { icon: Clock, value: '10+', label: 'Hours/Day Coding', color: 'accent-primary' },
@@ -21,6 +21,13 @@ export default function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section
