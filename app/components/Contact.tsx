@@ -17,7 +17,8 @@ export default function Contact() {
   return (
     <section id="contact" ref={sectionRef} className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent-primary/5 rounded-full blur-[150px]" />
+      <div className="absolute inset-0 aurora-ring opacity-40" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-accent-primary/10 rounded-full blur-[170px]" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.div
@@ -25,20 +26,18 @@ export default function Contact() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background-secondary border border-(--border-subtle) font-mono text-sm mb-8">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-background/70 border border-(--border-subtle) font-mono text-xs uppercase tracking-[0.25em] mb-8 shadow-[0_10px_40px_rgba(255,127,237,0.2)]">
             <span className="text-accent-secondary">@</span>
-            <span className="text-foreground-muted">contact</span>
+            <span className="text-foreground-muted">Signal Tower</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-foreground">Let&apos;s </span>
-            <span className="gradient-text">Build</span>
-            <span className="text-foreground"> Together</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
+            <span className="gradient-text">Start a new orbit with me</span>
           </h2>
 
-          <p className="text-lg text-foreground-muted max-w-xl mx-auto mb-12">
-            Open to enterprise projects, consulting, and collaboration. Currently architecting infrastructure at BISO
-            while exploring new challenges.
+          <p className="text-lg text-foreground-muted max-w-2xl mx-auto mb-12">
+            Enterprise build-out? Product rescue? I thrive in the space between infrastructure and experience—designing the rails
+            and the ride. Tell me what you’re dreaming up.
           </p>
         </motion.div>
 
@@ -48,17 +47,17 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12"
         >
-          <div className="p-6 rounded-2xl bg-background-secondary/50 border border-(--border-subtle)">
+          <div className="p-6 rounded-2xl holo-card border border-(--border-subtle)">
             <MapPin className="w-6 h-6 text-accent-primary mx-auto mb-3" />
             <div className="font-mono text-sm text-foreground">Remote-First</div>
             <div className="text-xs text-foreground-muted">Worldwide</div>
           </div>
-          <div className="p-6 rounded-2xl bg-background-secondary/50 border border-(--border-subtle)">
+          <div className="p-6 rounded-2xl holo-card border border-(--border-subtle)">
             <Clock className="w-6 h-6 text-accent-secondary mx-auto mb-3" />
             <div className="font-mono text-sm text-foreground">Response Time</div>
             <div className="text-xs text-foreground-muted">&lt; 24 hours</div>
           </div>
-          <div className="p-6 rounded-2xl bg-background-secondary/50 border border-(--border-subtle)">
+          <div className="p-6 rounded-2xl holo-card border border-(--border-subtle)">
             <Coffee className="w-6 h-6 text-accent-primary mx-auto mb-3" />
             <div className="font-mono text-sm text-foreground">Availability</div>
             <div className="text-xs text-accent-secondary">Open to projects</div>
@@ -82,7 +81,7 @@ export default function Contact() {
               transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              className={`w-14 h-14 rounded-xl bg-background-secondary border border-(--border-subtle) flex items-center justify-center text-foreground-muted transition-all ${link.color}`}
+              className={`w-14 h-14 rounded-xl holo-card border border-(--border-subtle) flex items-center justify-center text-foreground-muted transition-all ${link.color}`}
             >
               <link.icon className="w-6 h-6" />
             </motion.a>

@@ -119,9 +119,10 @@ export default function BISOTransformation() {
   return (
     <section id="biso" ref={sectionRef} className="relative py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 grid-bg opacity-30" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-accent-primary/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-accent-secondary/20 to-transparent" />
+      <div className="absolute inset-0 grid-bg opacity-20" />
+      <div className="absolute inset-0 aurora-ring opacity-60" />
+      <div className="absolute top-10 right-16 w-44 h-44 rounded-full bg-accent-primary/10 blur-3xl" />
+      <div className="absolute bottom-6 left-10 w-64 h-64 rounded-full bg-accent-secondary/10 blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Section header */}
@@ -131,19 +132,17 @@ export default function BISOTransformation() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background-secondary border border-(--border-subtle) font-mono text-sm mb-6">
-            <span className="text-accent-primary">case_study</span>
-            <span className="text-foreground-muted">::</span>
-            <span className="text-accent-secondary">enterprise_migration</span>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-background/60 border border-(--border-subtle) font-mono text-xs uppercase tracking-[0.2em] mb-6 shadow-[0_15px_60px_rgba(112,225,255,0.2)]">
+            <span className="text-accent-primary">Case Study</span>
+            <span className="text-foreground-muted">·</span>
+            <span className="text-accent-secondary">BISO System Rebuild</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            <span className="text-foreground">The </span>
-            <span className="gradient-text">BISO</span>
-            <span className="text-foreground"> Transformation</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
+            <span className="gradient-text">Turning a student union into a product company</span>
           </h2>
-          <p className="text-lg text-foreground-muted max-w-2xl mx-auto">
-            Migrating a legacy WordPress monolith to a modern microservices architecture, culminating in a unified
-            Single Management App.
+          <p className="text-lg text-foreground-muted max-w-3xl mx-auto">
+            From a brittle WordPress site to a constellation of services, apps, and admin tools. This is the blueprint that keeps
+            BISO running after I’m gone.
           </p>
         </motion.div>
 
